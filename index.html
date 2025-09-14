@@ -1,0 +1,705 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftblushBeauty</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Inter:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Loading Screen Styles */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fcebeb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .loading-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d8b2c4;
+            letter-spacing: 2px;
+            animation: bounceIn 1.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+        }
+
+        .progress-bar-container {
+            width: 80%;
+            max-width: 400px;
+            height: 8px;
+            background-color: #fff;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, #d8b2c4, #e5b9cc);
+            transition: width 0.3s ease-in-out;
+            border-radius: 9999px;
+        }
+
+        .loading-text {
+            color: #d8b2c4;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        /* Main Website Styles */
+        .softblush-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background-color: #e5b9cc;
+            color: #fff;
+            border: 1px solid #e5b9cc;
+        }
+
+        .btn-primary:hover {
+            background-color: #d1a8bc;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #333;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 80px; /* Add padding to accommodate nav bar */
+        }
+
+        .hero-bg-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background-color: #d8b2c4;
+            z-index: -1;
+            /* Added new animation */
+            animation: float-bg-left 10s ease-in-out infinite;
+        }
+
+        @keyframes float-bg-left {
+            0% { transform: translateY(0) }
+            50% { transform: translateY(-5px) }
+            100% { transform: translateY(0) }
+        }
+
+        .hero-bg-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-image: url('https://i.ibb.co/SD7N8ngp/Screenshot-2025-09-14-151049.png');
+            background-size: cover;
+            background-position: center;
+            z-index: -2;
+            /* Added new animation for parallax effect */
+            animation: pan-bg-right 30s linear infinite alternate;
+        }
+
+        @keyframes pan-bg-right {
+            0% { background-position: 50% 50% }
+            100% { background-position: 50% 55% }
+        }
+
+        .hero-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-text {
+            width: 45%;
+            color: #fff;
+        }
+
+        .hero-text h2 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .softblush-logo.header-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #d8b2c4;
+            letter-spacing: 2px;
+        }
+
+        .sneak-peek {
+            padding: 60px 0;
+            background-color: #fff;
+        }
+
+        .sneak-peek-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .sneak-peek-content > img:first-of-type {
+            width: 40%;
+            border-radius: 8px;
+        }
+
+        .sneak-peek-text {
+            width: 30%;
+        }
+
+        .sneak-peek-text h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e5b9cc;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sneak-peek-text p:first-of-type {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #555;
+            border-left: 2px solid #e5b9cc;
+            padding-left: 15px;
+        }
+
+        .sneak-peek-images {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 20%;
+        }
+
+        .benefits {
+            background-color: #fcebeb;
+            padding: 60px 0;
+        }
+
+        .benefits-grid {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            gap: 40px;
+        }
+
+        .benefit-item {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            flex: 1;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .benefit-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item h4 {
+            color: #d8b2c4;
+            font-weight: 600;
+        }
+
+        .ingredients {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 80px 0;
+            background-color: #fff;
+        }
+
+        .ingredient-item {
+            flex: 1;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .ingredient-item img {
+            border-radius: 8px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .ingredient-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .ingredient-item p {
+            background-color: #4b4b4b;
+            color: #fff;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-weight: 300;
+            margin-top: -30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .call-to-action {
+            background-color: #b299be;
+            padding: 80px 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .call-to-action h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .cta-images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .cta-images img {
+            max-width: 200px;
+            border-radius: 8px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .cta-images img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            color: #fff;
+            border-color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #fff;
+            color: #b299be;
+        }
+
+        /* Video Section Styles */
+        .video-section {
+            background-color: #fff;
+            padding: 60px 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        footer {
+            background-color: #fcebeb;
+            padding: 60px 0 20px;
+            color: #555;
+            text-align: center;
+        }
+
+        .footer-top {
+            margin-bottom: 40px;
+        }
+
+        .footer-top p {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .footer-col h5 {
+            color: #d8b2c4;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-col li a {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 2;
+        }
+
+        .footer-contact {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        /* New Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-hero-text {
+            animation: fadeInLeft 1s ease-out 0.7s forwards;
+            opacity: 0;
+        }
+        
+        .animate-hero-btn {
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Navigation Bar Styles */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .navbar a {
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #e5b9cc;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar .flex-row-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <h1 class="loading-logo">SoftblushBeauty</h1>
+        <div class="progress-bar-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <p id="loading-text" class="loading-text">Loading...</p>
+    </div>
+
+    <!-- Main Website Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation Bar -->
+        <nav class="navbar w-full p-4">
+            <div class="container mx-auto flex items-center justify-between">
+                <a href="#" class="softblush-logo header-logo">SoftblushBeauty</a>
+                <ul class="flex-row-links flex space-x-6">
+                    <li><a href="#" class="font-medium">Home</a></li>
+                    <li><a href="#" class="font-medium">Products</a></li>
+                    <li><a href="#" class="font-medium">About</a></li>
+                    <li><a href="#" class="font-medium">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-bg-left"></div>
+            <div class="hero-bg-right"></div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2 class="text-4xl font-semibold mb-5 animate-hero-text">Coming soon, a new era for soft skin</h2>
+                    <p class="text-lg font-light mb-8 animate-hero-text" style="animation-delay: 1.0s;">We're launching our new product line, Ozonia. Get a sneak peek before anyone else.</p>
+                    <a href="#" class="btn btn-primary animate-hero-btn">GET EARLY ACCESS</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sneak Peek Section -->
+        <section class="sneak-peek animate-on-scroll">
+            <div class="sneak-peek-content">
+                <img class="image-hover-effect" src="https://i.ibb.co/Swm3fX38/Screenshot-2025-09-14-151617.png" alt="Screenshot-2025-09-14-151617" onerror="this.onerror=null;this.src='https://placehold.co/400x300/e5b9cc/fff?text=Product+Image+1'">
+                <div class="sneak-peek-text">
+                    <h3>HERE'S A SNEAK PEAK</h3>
+                    <p>Ozonia is our lightest and most effective product line. Every product is made with fresh ingredients and developed to give you an all-natural glow!</p>
+                    <p>Watch out for it this November 5, 2025</p>
+                </div>
+                <div class="sneak-peek-images">
+                    <img class="image-hover-effect" src="https://i.ibb.co/BKN4B6Bg/Screenshot-2025-09-14-151954.png" alt="Screenshot-2025-09-14-151954" onerror="this.onerror=null;this.src='https://placehold.co/200x200/d8b2c4/fff?text=Image+2'">
+                    <img class="image-hover-effect" src="https://i.ibb.co/GvVJ5b9c/Screenshot-2025-09-14-152255.png" alt="Screenshot-2025-09-14-152255" onerror="this.onerror=null;this.src='https://placehold.co/200x200/b299be/fff?text=Image+3'">
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section class="benefits animate-on-scroll">
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">✨</div>
+                    <h4>ORGANIC</h4>
+                    <p>Fresh and all-natural ingredients</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💖</div>
+                    <h4>GENTLE</h4>
+                    <p>Safe for sensitive skin</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">✅</div>
+                    <h4>EFFECTIVE</h4>
+                    <p>Clinically proven</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ingredients Section -->
+        <section class="ingredients animate-on-scroll">
+            <div class="ingredient-item">
+                <img class="image-hover-effect" src="https://images.unsplash.com/photo-1603504780590-449e798151ed?q=80&w=2670&auto=format&fit=crop" alt="Fresh botanical extracts">
+                <p>Fresh botanical extracts</p>
+            </div>
+            <div class="ingredient-item">
+                <img class="image-hover-effect" src="https://images.unsplash.com/photo-1549419161-59af5dfa9a6b?q=80&w=2670&auto=format&fit=crop" alt="Pure glacial water">
+                <p>Pure glacial water</p>
+            </div>
+            <div class="ingredient-item">
+                <img class="image-hover-effect" src="https://images.unsplash.com/photo-1615800366601-3e47a9657685?q=80&w=2574&auto=format&fit=crop" alt="Enriched with vitamins">
+                <p>Enriched with vitamins</p>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="call-to-action animate-on-scroll">
+            <h3>BE THE FIRST TO EXPERIENCE THE OZONIA RANGE</h3>
+            <div class="cta-images">
+                <img class="image-hover-effect" src="https://i.ibb.co/Gvq3MK9S/Screenshot-2025-09-14-154806.png">
+                <img class="image-hover-effect" src="https://i.ibb.co/mr4n1zkn/Screenshot-2025-09-14-155313.png">
+                <img class="image-hover-effect" src="https://i.ibb.co/mrFnQyZN/Screenshot-2025-09-14-155524.png" >
+                <img class="image-hover-effect" src="https://i.ibb.co/qYvsWywj/Screenshot-2025-09-14-161451.png">
+            </div>
+            <a href="#" class="btn btn-secondary">GET EARLY ACCESS</a>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-section animate-on-scroll">
+            <div class="container mx-auto text-center py-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Discover the Magic of SoftblushBeauty</h2>
+                <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">Watch our latest video to see our products in action and learn more about our commitment to natural, gentle skincare.</p>
+                <div class="video-container">
+                    <iframe src="https://d35ghwdno3nak3.cloudfront.net/product_to_videos/2119410/d2c4ae32-726f-4107-ac6a-0151e0db4a2b/20250914/d2c4ae32-726f-4107-ac6a-0151e0db4a2b_watermarked.mp4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer -->
+        <footer class="animate-on-scroll">
+            <div class="footer-top">
+                <h1 class="softblush-logo" style="color:#d8b2c4">SoftblushBeauty</h1>
+                <p>TRUSTED SKINCARE SINCE 2018</p>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-col">
+                    <h5>LET'S GET SOCIAL!</h5>
+                    <ul>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>WHERE TO FIND US</h5>
+                    <p>AMSTERDAM<br>Amsterdamstraat 38<br>1012 Amsterdam<br>The Netherlands</p>
+                </div>
+                <div class="footer-col">
+                    <p>OSLO<br>Trondheimveien 135<br>0570 Oslo<br>Norway</p>
+                </div>
+                <div class="footer-col">
+                    <p>LONDON<br>Shepherdfield Rd<br>London SW18 1LL<br>United Kingdom</p>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <p>hello@reallygreatsite.com</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressBar = document.getElementById('progress-bar');
+            const mainContent = document.getElementById('main-content');
+            const loadingText = document.getElementById('loading-text');
+            const body = document.body;
+
+            // Loading bar animation
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress > 100) {
+                    progress = 100;
+                }
+                progressBar.style.width = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    loadingText.textContent = "Complete!";
+                    setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
+                        loadingScreen.style.pointerEvents = 'none';
+                        mainContent.style.display = 'block';
+                        body.style.opacity = '1';
+                    }, 500);
+                }
+            }, 100);
+
+            // Animate on scroll logic
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const sections = document.querySelectorAll('.animate-on-scroll');
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
